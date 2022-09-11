@@ -28,7 +28,7 @@ class deadPixelCorrection:
     def clipping(self):
         # clip needed for avoid values>maximum
         # Fill your code here
-        np.clip(self.img, self.thres, self.clip)
+        self.img = np.clip(self.img, self.thres, self.clip)
         return
 
     def execute(self):

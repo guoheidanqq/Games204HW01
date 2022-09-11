@@ -84,3 +84,10 @@ Bayer_dpc = dpc.execute()
 print(50 * '-' + '\n 1.1 Dead Pixel Correction Done......')
 plt.imshow(rawimg, cmap='gray')
 plt.show()
+
+
+# Step 2.'Black Level Compensation' (5pts)
+parameter = raw.black_level_per_channel + [alpha, beta]
+blkC = blackLevelCompensation(Bayer_dpc, parameter, bayer_pattern, clip = 2**14)
+Bayer_blackLevelCompensation = blkC.execute()
+print(50*'-' + '\n 1.2 Black Level Compensation Done......')
