@@ -28,13 +28,90 @@ class deadPixelCorrection:
     def clipping(self):
         # clip needed for avoid values>maximum
         # Fill your code here
-        self.img = np.clip(self.img, self.thres, self.clip)
+        self.img = np.clip(self.img, 0, self.clip)
         return
+
+    def get_p1(self, i, j):
+        if self.is_boundary(i, j):
+            return self.img[i - 2, j - 2]
+        else:
+            return self.get_outside()
+
+    def get_p2(self, i, j):
+        if self.is_boundary(i, j):
+            return self.img[i - 2, j]
+        else:
+            return self.get_outside()
+
+    def get_p3(self, i, j):
+        if self.is_boundary(i, j):
+            return self.img[i - 2, j + 2]
+        else:
+            return self.get_outside()
+
+    def get_p4(self, i, j):
+        if self.is_boundary(i, j):
+            return self.img[i, j - 2]
+        else:
+            return self.get_outside()
+
+    def get_p5(self, i, j):
+        if self.is_boundary(i, j):
+            return self.img[i, j + 2]
+        else:
+            return self.get_outside()
+
+    def get_p6(self, i, j):
+        if self.is_boundary(i, j):
+            return self.img[i + 2, j - 2]
+        else:
+            return self.get_outside()
+
+    def get_p7(self, i, j):
+        if self.is_boundary(i, j):
+            return self.img[i + 2, j]
+        else:
+            return self.get_outside()
+
+    def get_p8(self, i, j):
+        if self.is_boundary(i, j):
+            return self.img[i + 2, j + 2]
+        else:
+            return self.get_outside()
+
+    def is_boundary(self, i, j):
+        if (i - 2 < 0 | i + 2 > self.img.shape[0] | j - 2 < 0 | j + 2 > self.img.shape[1]):
+            return True
+        else:
+            return False
+
+    def get_outside(self):
+        OUTSIDE_VALUE = 0
+        return OUTSIDE_VALUE
 
     def execute(self):
         # Fill your code here
         self.clipping()
+
         dpc_img = self.img
+        # TODO color R
+        WIDTH = self.img.shape[0]
+        HEIGHT = self.img.shape[1]
+        for i in range(0, WIDTH):
+            for j in range(0, HEIGHT):
+                p0 = self.img[i, j]
+                p1 = self.get_p1(i, j)
+                p2 = self.get_p2(i, j)
+                p3 = self.get_p3(i, j)
+                p4 = self.get_p4(i, j)
+                p5 = self.get_p5(i, j)
+                p6 = self.get_p6(i, j)
+                p7 = self.get_p7(i, j)
+                p8 = self.get_p8(i, j)
+                if np.all(abs(np.array([p1, p2, p3, p4, p5, p6, p7, p8]) - p0) > self.thres):
+                    # TODO  correction value
+                    print("dead pixel" + str(i) + " " + str(j))
+
         return dpc_img
         # return 1
 
