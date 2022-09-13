@@ -32,54 +32,54 @@ class deadPixelCorrection:
         return
 
     def get_p1(self, i, j):
-        if self.is_boundary(i, j):
+        if self.is_in_boundary(i, j):
             return self.img[i - 2, j - 2]
         else:
             return self.get_outside()
 
     def get_p2(self, i, j):
-        if self.is_boundary(i, j):
+        if self.is_in_boundary(i, j):
             return self.img[i - 2, j]
         else:
             return self.get_outside()
 
     def get_p3(self, i, j):
-        if self.is_boundary(i, j):
+        if self.is_in_boundary(i, j):
             return self.img[i - 2, j + 2]
         else:
             return self.get_outside()
 
     def get_p4(self, i, j):
-        if self.is_boundary(i, j):
+        if self.is_in_boundary(i, j):
             return self.img[i, j - 2]
         else:
             return self.get_outside()
 
     def get_p5(self, i, j):
-        if self.is_boundary(i, j):
+        if self.is_in_boundary(i, j):
             return self.img[i, j + 2]
         else:
             return self.get_outside()
 
     def get_p6(self, i, j):
-        if self.is_boundary(i, j):
+        if self.is_in_boundary(i, j):
             return self.img[i + 2, j - 2]
         else:
             return self.get_outside()
 
     def get_p7(self, i, j):
-        if self.is_boundary(i, j):
+        if self.is_in_boundary(i, j):
             return self.img[i + 2, j]
         else:
             return self.get_outside()
 
     def get_p8(self, i, j):
-        if self.is_boundary(i, j):
+        if self.is_in_boundary(i, j):
             return self.img[i + 2, j + 2]
         else:
             return self.get_outside()
 
-    def is_boundary(self, i, j):
+    def is_in_boundary(self, i, j):
         if (i - 2 < 0 | i + 2 > self.img.shape[0] | j - 2 < 0 | j + 2 > self.img.shape[1]):
             return True
         else:
