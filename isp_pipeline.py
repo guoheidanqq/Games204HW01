@@ -78,7 +78,7 @@ plt.show()
 t_start = time.time()
 # Step 1. Dead Pixel Correction (10pts)
 dpc = deadPixelCorrection(rawimg, dpc_thres, dpc_mode, dpc_clip)
-Bayer_dpc = dpc.execute()
+Bayer_dpc = dpc.execute
 print(50*'-' + '\n 1.1 Dead Pixel Correction Done......')
 
 # Step 2.'Black Level Compensation' (5pts)

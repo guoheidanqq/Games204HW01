@@ -89,17 +89,33 @@ class deadPixelCorrection:
         OUTSIDE_VALUE = 0
         return OUTSIDE_VALUE
 
+    def dead_pixel_correction(self, p0, p1, p2, p3, p4, p5, p6, p7, p8):
+        dv = np.abs(2 * p0 - p2 - p7)
+        dh = np.abs(2 * p0 - p4 - p5)
+        ddr = np.abs(2 * p0 - p1 - p8)
+        ddl = np.abs(2 * p0 - p3 - p6)
+        pixelValue = p0
+        index = np.argmin([dv, dh, ddr, ddl])
+        if index == 0:
+            pixelValue = (p2 + p7 + 1) / 2
+        elif index == 1:
+            pixelValue = (p4 + p5 + 1) / 2
+        elif index == 2:
+            pixelValue = (p1 + p8 + 1) / 2
+        elif index == 3:
+            pixelValue = (p3 + p6 + 1) / 2
+        return pixelValue
+
     def execute(self):
         # Fill your code here
         self.clipping()
-
         dpc_img = self.img
         # TODO color R
-        WIDTH = self.img.shape[0]
-        HEIGHT = self.img.shape[1]
+        HEIGHT = self.img.shape[0]
+        WIDTH = self.img.shape[1]
         count = 0
-        for i in range(0, WIDTH):
-            for j in range(0, HEIGHT):
+        for i in range(0, HEIGHT):
+            for j in range(0, WIDTH):
                 p0 = self.img[i, j]
                 p1 = self.get_p1(i, j)
                 p2 = self.get_p2(i, j)
@@ -111,11 +127,10 @@ class deadPixelCorrection:
                 p8 = self.get_p8(i, j)
                 if np.all(abs(np.array([p1, p2, p3, p4, p5, p6, p7, p8]) - p0) > self.thres):
                     # print("dead pixel: " + str(i) + " " + str(j))
+                    self.img[i, j] = self.dead_pixel_correction(p0, p1, p2, p3, p4, p5, p6, p7, p8)
                     count = count + 1
-                    print(count)
-        print(count)
+        print("dead pixel # = " + str(count))
         return dpc_img
-        # return 1
 
 
 # Step 2.'Black Level Compensation'   (10pts)
