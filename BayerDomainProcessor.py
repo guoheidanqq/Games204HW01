@@ -80,10 +80,10 @@ class deadPixelCorrection:
             return self.get_outside()
 
     def is_in_boundary(self, i, j):
-        if (i - 2 < 0 | i + 2 > self.img.shape[0] | j - 2 < 0 | j + 2 > self.img.shape[1]):
-            return True
-        else:
+        if i - 2 < 0 or i + 2 > self.img.shape[0] - 1 or j - 2 < 0 or j + 2 > self.img.shape[1] - 1:
             return False
+        else:
+            return True
 
     def get_outside(self):
         OUTSIDE_VALUE = 0
@@ -97,6 +97,7 @@ class deadPixelCorrection:
         # TODO color R
         WIDTH = self.img.shape[0]
         HEIGHT = self.img.shape[1]
+        count = 0
         for i in range(0, WIDTH):
             for j in range(0, HEIGHT):
                 p0 = self.img[i, j]
@@ -109,9 +110,10 @@ class deadPixelCorrection:
                 p7 = self.get_p7(i, j)
                 p8 = self.get_p8(i, j)
                 if np.all(abs(np.array([p1, p2, p3, p4, p5, p6, p7, p8]) - p0) > self.thres):
-                    # TODO  correction value
-                    print("dead pixel" + str(i) + " " + str(j))
-
+                    # print("dead pixel: " + str(i) + " " + str(j))
+                    count = count + 1
+                    print(count)
+        print(count)
         return dpc_img
         # return 1
 
