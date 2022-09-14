@@ -192,10 +192,82 @@ class antiAliasingFilter:
         return
         # Hint: "In bayer domain, the each ,R,G,G,B pixel is skipped by 2."
 
+    def get_p1(self, i, j):
+        if self.is_in_boundary(i, j):
+            return self.img[i - 2, j - 2]
+        else:
+            return self.get_outside()
+
+    def get_p2(self, i, j):
+        if self.is_in_boundary(i, j):
+            return self.img[i - 2, j]
+        else:
+            return self.get_outside()
+
+    def get_p3(self, i, j):
+        if self.is_in_boundary(i, j):
+            return self.img[i - 2, j + 2]
+        else:
+            return self.get_outside()
+
+    def get_p4(self, i, j):
+        if self.is_in_boundary(i, j):
+            return self.img[i, j - 2]
+        else:
+            return self.get_outside()
+
+    def get_p5(self, i, j):
+        if self.is_in_boundary(i, j):
+            return self.img[i, j + 2]
+        else:
+            return self.get_outside()
+
+    def get_p6(self, i, j):
+        if self.is_in_boundary(i, j):
+            return self.img[i + 2, j - 2]
+        else:
+            return self.get_outside()
+
+    def get_p7(self, i, j):
+        if self.is_in_boundary(i, j):
+            return self.img[i + 2, j]
+        else:
+            return self.get_outside()
+
+    def get_p8(self, i, j):
+        if self.is_in_boundary(i, j):
+            return self.img[i + 2, j + 2]
+        else:
+            return self.get_outside()
+
+    def is_in_boundary(self, i, j):
+        if i - 2 < 0 or i + 2 > self.img.shape[0] - 1 or j - 2 < 0 or j + 2 > self.img.shape[1] - 1:
+            return False
+        else:
+            return True
+
+    def get_outside(self):
+        OUTSIDE_VALUE = 0
+        return OUTSIDE_VALUE
+
     def execute(self):
         # Fill your code here
-
-        return
+        HEIGHT = self.img.shape[0]
+        WIDTH = self.img.shape[1]
+        count = 0
+        for i in range(0, HEIGHT):
+            for j in range(0, WIDTH):
+                p0 = self.img[i, j]
+                p1 = self.get_p1(i, j)
+                p2 = self.get_p2(i, j)
+                p3 = self.get_p3(i, j)
+                p4 = self.get_p4(i, j)
+                p5 = self.get_p5(i, j)
+                p6 = self.get_p6(i, j)
+                p7 = self.get_p7(i, j)
+                p8 = self.get_p8(i, j)
+                self.img[i, j] = (2 * p0 + p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8) / 10
+        return self.img
 
 
 # Step 5. Auto White Balance and Gain Control (10pts)

@@ -74,7 +74,6 @@ print(50 * '-' + '\nLoading RAW Image Done......')
 plt.imshow(rawimg, cmap='gray')
 plt.show()
 
-
 #  step  last  write csv files
 # rawImgFile = ImageIO(rawimg)
 # rawImgFile.write_to_txt('rawImg.csv')
@@ -99,6 +98,11 @@ Bayer_blackLevelCompensation = blkC.execute()
 print(50 * '-' + '\n 1.2 Black Level Compensation Done......')
 plt.imshow(Bayer_blackLevelCompensation, cmap='gray')
 
-
+# Step 4. Anti Aliasing Filter (10pts)
+antiAliasingFilter = antiAliasingFilter(Bayer_blackLevelCompensation)
+Bayer_antiAliasingFilter = antiAliasingFilter.execute()
+print(50 * '-' + '\n 1.4 Anti-aliasing Filtering Done......')
+plt.imshow(Bayer_antiAliasingFilter, cmap='gray')
+plt.show()
 
 
