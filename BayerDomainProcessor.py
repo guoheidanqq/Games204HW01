@@ -144,6 +144,7 @@ class blackLevelCompensation:
     def clipping(self):
         # clip needed for avoid values>maximum, find a proper value for 14bit raw input
         # Fill your code here
+        self.img = np.clip(self.img, 0, self.clip)
 
         return
 
@@ -155,8 +156,22 @@ class blackLevelCompensation:
         alpha = self.parameter[4]
         beta = self.parameter[5]
         # Fill your code here
+        HEIGHT = self.img.shape[0]
+        WIDTH = self.img.shape[1]
+        R = self.img[0::2, 0::2]
+        GR = self.img[0::2, 1::2]
+        GB = self.img[1::2, 0::2]
+        B = self.img[1::2, 1::2]
+        R = R + bl_r
+        GR = GR + bl_gr + alpha * R
+        GB = GB + bl_gb + beta * B
+        B = B + bl_b
+        self.img[0::2, 0::2] = R
+        self.img[0::2, 1::2] = GR
+        self.img[1::2, 0::2] = GB
+        self.img[1::2, 1::2] = B
 
-        return
+        return self.img
 
     # Step 3.'lens shading correction
 
