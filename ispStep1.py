@@ -9,6 +9,7 @@ Created on Fri Jul 29 13:45:23 2022
 # Do not cheat and post any code to the public!
 
 from BayerDomainProcessor import *
+from ImageFileProcessing import *
 from RGBDomainProcessor import *
 from YUVDomainProcessor import *
 
@@ -73,6 +74,11 @@ print(50 * '-' + '\nLoading RAW Image Done......')
 plt.imshow(rawimg, cmap='gray')
 plt.show()
 
+
+#  step  last  write csv files
+# rawImgFile = ImageIO(rawimg)
+# rawImgFile.write_to_txt('rawImg.csv')
+
 #################################################################################################################
 #####################################  Part 1: Bayer Domain Processing Steps  ###################################
 #################################################################################################################
@@ -92,3 +98,7 @@ blkC = blackLevelCompensation(rawimg, parameter, bayer_pattern, clip=2 ** 14)
 Bayer_blackLevelCompensation = blkC.execute()
 print(50 * '-' + '\n 1.2 Black Level Compensation Done......')
 plt.imshow(Bayer_blackLevelCompensation, cmap='gray')
+
+
+
+
