@@ -90,19 +90,25 @@ plt.show()
 # plt.show()
 
 
-# Step 2.'Black Level Compensation' (5pts)
-parameter = raw.black_level_per_channel + [alpha, beta]
-# blkC = blackLevelCompensation(Bayer_dpc, parameter, bayer_pattern, clip = 2**14)
-blkC = blackLevelCompensation(rawimg, parameter, bayer_pattern, clip=2 ** 14)
-Bayer_blackLevelCompensation = blkC.execute()
-print(50 * '-' + '\n 1.2 Black Level Compensation Done......')
-plt.imshow(Bayer_blackLevelCompensation, cmap='gray')
+# # Step 2.'Black Level Compensation' (5pts)
+# parameter = raw.black_level_per_channel + [alpha, beta]
+# # blkC = blackLevelCompensation(Bayer_dpc, parameter, bayer_pattern, clip = 2**14)
+# blkC = blackLevelCompensation(rawimg, parameter, bayer_pattern, clip=2 ** 14)
+# Bayer_blackLevelCompensation = blkC.execute()
+# print(50 * '-' + '\n 1.2 Black Level Compensation Done......')
+# plt.imshow(Bayer_blackLevelCompensation, cmap='gray')
+#
+# # Step 4. Anti Aliasing Filter (10pts)
+# antiAliasingFilter = antiAliasingFilter(Bayer_blackLevelCompensation)
+# Bayer_antiAliasingFilter = antiAliasingFilter.execute()
+# print(50 * '-' + '\n 1.4 Anti-aliasing Filtering Done......')
+# plt.imshow(Bayer_antiAliasingFilter, cmap='gray')
+# plt.show()
 
-# Step 4. Anti Aliasing Filter (10pts)
-antiAliasingFilter = antiAliasingFilter(Bayer_blackLevelCompensation)
-Bayer_antiAliasingFilter = antiAliasingFilter.execute()
-print(50 * '-' + '\n 1.4 Anti-aliasing Filtering Done......')
-plt.imshow(Bayer_antiAliasingFilter, cmap='gray')
+# Step 5. Auto White Balance and Gain Control (10pts)
+parameter = [r_gain, gr_gain, gb_gain, b_gain]
+awb = AWB(rawimg, parameter, bayer_pattern, awb_clip)
+Bayer_awb = awb.execute()
+print(50*'-' + '\n 1.5 White Balance Gain Done......')
+plt.imshow(Bayer_awb,cmap = 'gray')
 plt.show()
-
-

@@ -281,14 +281,32 @@ class AWB:
     def clipping(self):
         # clip needed for avoid values>maximum, find a proper value for 14bit raw input
         # Fill your code here
+        MAXIMUM_VALUE = 2 ** 14
+        self.img[self.img > MAXIMUM_VALUE] = MAXIMUM_VALUE
 
         return
 
     def execute(self):
         # calculate Gr_avg/R_avg, 1, Gr_avg/Gb_avg, Gr_avg/B_avg and apply to each channel
         # Fill your code here
-
-        return
+        self.clipping()
+        R = self.img[0::2, 0::2]
+        GR = self.img[0::2, 1::2]
+        GB = self.img[1::2, 0::2]
+        B = self.img[1::2, 1::2]
+        R_avg = np.mean(R)
+        Gr_avg = np.mean(GR)
+        GB_avg = np.mean(GB)
+        B_avg  = np.mean(GB)
+        R_gain = Gr_avg/R_avg
+        Gr_gain = 1
+        Gb_gain = Gr_avg/GB_avg
+        B_gain = Gr_avg/B_avg
+        self.img[0::2, 0::2] = R*R_gain
+        self.img[0::2, 1::2] = GR*Gr_gain
+        self.img[1::2, 0::2] = GB*Gb_gain
+        self.img[1::2, 1::2] = B*B_gain
+        return self.img
 
     # Step 6. Chroma Noise Reduction (Additional 20pts)
 
