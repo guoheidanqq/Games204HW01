@@ -112,3 +112,9 @@ Bayer_awb = awb.execute()
 print(50*'-' + '\n 1.5 White Balance Gain Done......')
 plt.imshow(Bayer_awb,cmap = 'gray')
 plt.show()
+
+# Step 6. Chroma Noise Filtering (Extra 20pts)
+cnf = ChromaNoiseFiltering(Bayer_awb, bayer_pattern, 0, parameter, cfa_clip)
+Bayer_cnf = cnf.execute()
+print(50*'-' + '\n 1.6 Chroma Noise Filtering Done......')
+
