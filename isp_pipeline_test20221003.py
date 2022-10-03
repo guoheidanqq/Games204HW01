@@ -105,7 +105,6 @@ plt.show()
 
 yuvBrighter = BrightnessContrastControl(yuv, 50, 0, 127)
 yuvBrighterImg = yuvBrighter.execute()
-
 rgb = YUV2RGB(yuvBrighterImg)
 rgb = rgb.astype(np.uint8)
 plt.imshow(rgb)
