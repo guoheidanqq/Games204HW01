@@ -115,6 +115,23 @@ class HueSaturationControl:
         img_h = self.img.shape[0]
         img_w = self.img.shape[1]
         img_c = self.img.shape[2]
-        # Your code here 
-
-        return
+        # Your code here
+        image = self.img.copy()
+        U = image[:, :, 1]
+        V = image[:, :, 2]
+        Scale_factor = self.saturation / 100
+        theta = np.around(self.hue) % 360
+        # saturation 100 is original image， 0 is gray color ，300 is more color
+        # hue for 0 360 , 0 for nothing change ,180 for complementary color
+        U = (U - 128) * Scale_factor + 128
+        V = (V - 128) * Scale_factor + 128
+        costheta = lut_cos[theta]/256
+        sintheta = lut_sin[theta]/256
+        UU = U.copy()
+        VV = V.copy()
+        UUU = UU * costheta + VV * sintheta
+        VVV = -UU * sintheta + VV * costheta
+        image[..., 1] = UUU
+        image[..., 2] = VVV
+        #image = np.clip(image, 0, 255.0)
+        return image
