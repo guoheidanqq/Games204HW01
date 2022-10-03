@@ -7,8 +7,6 @@ Created on Fri Aug 27 20:51:14 2021
 import numpy as np
 
 
-
-
 # Step Luma-2. 'Edge Enhancement'
 class EdgeEnhancement:
     def __init__(self, img, edge_filter, gain, thres, emclip):
@@ -37,14 +35,16 @@ class EdgeEnhancement:
         img_w = self.img.shape[1]
         ee_img = np.empty((img_h, img_w), np.int16)
         em_img = np.empty((img_h, img_w), np.int16)
-       # Your code here 
+        # Your code here
 
-        return  
+        return
 
-# Step Luma-3. 'Brightness Contrast Control'
-class BrightnessContrastControl: 
+    # Step Luma-3. 'Brightness Contrast Control'
+
+
+class BrightnessContrastControl:
     def __init__(self, img, brightness, contrast, clip):
-        self.img = img
+        self.img = img.copy()
         self.brightness = brightness
         self.contrast = contrast
         self.clip = clip
@@ -56,13 +56,16 @@ class BrightnessContrastControl:
     def execute(self):
         img_h = self.img.shape[0]
         img_w = self.img.shape[1]
-        # Your code here 
+        # Your code here
+        Y = self.img[:, :, 0].copy()
+        Y = Y + self.brightness
+        Y = Y + (Y - 127) * self.contrast
+        self.img[:, :, 0] = Y
+        return self.img
 
-        return  
+    # Step Chroma-1 False Color Suppression
 
 
-
-# Step Chroma-1 False Color Suppression
 class FalseColorSuppression:
     def __init__(self, img, edgemap, fcs_edge, gain, intercept, slope):
         self.img = img
@@ -75,7 +78,7 @@ class FalseColorSuppression:
     def clipping(self):
         # Your code here 
 
-        return  
+        return
 
     def execute(self):
         img_h = self.img.shape[0]
@@ -83,9 +86,11 @@ class FalseColorSuppression:
         img_c = self.img.shape[2]
         # Your code here 
 
-        return  
-    
-# Step Chroma-2 Hue/Saturation control
+        return
+
+    # Step Chroma-2 Hue/Saturation control
+
+
 class HueSaturationControl:
     def __init__(self, img, hue, saturation, clip):
         self.img = img
@@ -111,5 +116,5 @@ class HueSaturationControl:
         img_w = self.img.shape[1]
         img_c = self.img.shape[2]
         # Your code here 
-        
-        return  
+
+        return
