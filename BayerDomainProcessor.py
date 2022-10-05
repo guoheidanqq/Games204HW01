@@ -166,11 +166,15 @@ class blackLevelCompensation:
         GR = GR + bl_gr + alpha * R
         GB = GB + bl_gb + beta * B
         B = B + bl_b
-        self.img[0::2, 0::2] = R
-        self.img[0::2, 1::2] = GR
-        self.img[1::2, 0::2] = GB
-        self.img[1::2, 1::2] = B
+        tmpImg = np.zeros_like(self.img, dtype=np.int32)
 
+        tmpImg[0::2, 0::2] = R[:, :]
+        tmpImg[0::2, 1::2] = GR[:, :]
+        tmpImg[1::2, 0::2] = GB[:, :]
+        tmpImg[1::2, 1::2] = B[:, :]
+        tmpImg = tmpImg.clip(0, self.clip)
+        self.img = tmpImg.astype(np.uint16)
+        self.clipping()
         return self.img
 
     # Step 3.'lens shading correction
@@ -297,15 +301,15 @@ class AWB:
         R_avg = np.mean(R)
         Gr_avg = np.mean(GR)
         GB_avg = np.mean(GB)
-        B_avg  = np.mean(GB)
-        R_gain = Gr_avg/R_avg
+        B_avg = np.mean(GB)
+        R_gain = Gr_avg / R_avg
         Gr_gain = 1
-        Gb_gain = Gr_avg/GB_avg
-        B_gain = Gr_avg/B_avg
-        self.img[0::2, 0::2] = R*R_gain
-        self.img[0::2, 1::2] = GR*Gr_gain
-        self.img[1::2, 0::2] = GB*Gb_gain
-        self.img[1::2, 1::2] = B*B_gain
+        Gb_gain = Gr_avg / GB_avg
+        B_gain = Gr_avg / B_avg
+        self.img[0::2, 0::2] = R * R_gain
+        self.img[0::2, 1::2] = GR * Gr_gain
+        self.img[1::2, 0::2] = GB * Gb_gain
+        self.img[1::2, 1::2] = B * B_gain
         return self.img
 
     # Step 6. Chroma Noise Reduction (Additional 20pts)
